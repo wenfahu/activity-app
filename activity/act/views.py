@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from act.forms import UserForm, UserProfileForm
+from activity.act.forms import UserForm, UserProfileForm
 
 # Create your views here.
 
