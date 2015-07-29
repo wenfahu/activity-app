@@ -10,3 +10,36 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class Activity(models.Model):
+    SID = models.AutoField
+    Title = models.CharField(max_length=128)
+    Content = models.TextField
+    IsPublic = models.BooleanField(null=True)
+    Keyword = models.CharField(max_length=128)
+    UID = models.OneToOneField(UserProfile)
+    Image = models.ImageField(upload_to = 'activity_images', blank=True)
+    Comments = models.ForeignKey(UserProfile)
+    State = models.CharField(max_length=128)
+    StartTime = models.DateField
+    EndTime = models.DateField
+    RegisterForm = models.TextField
+    BlackList = models.TextField
+
+    def __str__(self):
+        return self.SID
+
+
+class CommentInfo(models.Model):
+    ID = models.AutoField
+    Title = models.CharField(max_length=128)
+    Content = models.TextField
+    UID = models.ForeignKey(UserProfile)
+    SID = models.ForeignKey(Activity)
+    State = models.BooleanField(null=True)
+    Score = models.IntegerField
+
+    def __str__(self):
+        return self.ID
+
