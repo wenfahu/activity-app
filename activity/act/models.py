@@ -16,9 +16,8 @@ class Activity(models.Model):
     SID = models.AutoField
     Title = models.CharField(max_length=128)
     Content = models.TextField
-    IsPublic = models.BooleanField(null=True)
+    IsPublic = models.BooleanField(default=True)
     Keyword = models.CharField(max_length=128)
-    UID = models.OneToOneField(UserProfile)
     Image = models.ImageField(upload_to = 'activity_images', blank=True)
     Comments = models.ForeignKey(UserProfile)
     State = models.CharField(max_length=128)
@@ -37,7 +36,7 @@ class CommentInfo(models.Model):
     Content = models.TextField
     UID = models.ForeignKey(UserProfile)
     SID = models.ForeignKey(Activity)
-    State = models.BooleanField(null=True)
+    State = models.BooleanField(default=True)
     Score = models.IntegerField
 
     def __str__(self):
