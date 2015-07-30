@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>request_user_info</title>
+</head>
+<body>
+    <h1>input the username</h1>
+    <form id = "request_user_info_form" method = "POST" action = "/act/request_user_info/" >
+	    {% csrf_token %}
+	    Username : <input type = "text" name = "username" value = "" size = "50"/>
+	    </br>
+	    <input type = "submit" value = "submit" />
+	</form>
+
+    {% if request_user_info %}
+    <ul>
+        <li>username:{{username}}</li>
+        <li>avatar:<img src="{{ avatar.url }}" /></li>
+        <li>Gender:{{Gender}}</li>
+        <li>Telephone:{{Telephone}}</li>
+        <li>Type:{{Type}}</li>
+    </ul>
+</body>
+</html>

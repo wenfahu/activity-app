@@ -54,7 +54,7 @@ def user_login(request):
             else:
                 return HttpResponse('your account is disabled')
         else:
-            print ("Invalid login details: {0}, {1}".format(username, password)) 
+            print("Invalid login details: {0}, {1}".format(username, password))
             return HttpResponse("Invalid login details supplied.")
     else:
         return render(request, 'act/login.html', {})
@@ -64,9 +64,15 @@ def user_login(request):
 def request_user_info(request):
     if request.method == 'POST':
         username = request.POST.get('username')
-        user = UserProfile.objects.get(user__username = username)
+        user = UserProfile.objects.get(user__username=username)
         if user:
-            print(user)
+            return render(request,
+                          'act/request_user_info.html',
+                          {'username': username,
+                           'avatar': user.avatar,
+                           'Gender': user.Gender,
+                           'Telephone': user.Telephone,
+                           'Type': user.Type})
 
         else:
             return HttpResponse('not found')
