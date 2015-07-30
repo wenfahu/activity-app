@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from activity.act.forms import UserForm, UserProfileForm
-
 # Create your views here.
 
 
@@ -37,3 +36,4 @@ def register(request):
                   {'user_form': user_form,
                    'profile_form': profile_form,
                    'registered': registered})
+
