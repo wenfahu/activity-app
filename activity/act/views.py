@@ -1,5 +1,7 @@
 from django.shortcuts import render
-from activity.act.forms import UserForm, UserProfileForm
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponseRedirect, HttpResponse
+from act.forms import UserForm, UserProfileForm
 
 # Create your views here.
 
@@ -26,7 +28,7 @@ def register(request):
             registered = True
 
         else:
-            print (user_form.errors, profile_form.errors)
+            print(user_form.errors, profile_form.errors)
 
     else:
         user_form = UserForm()
@@ -37,3 +39,36 @@ def register(request):
                   {'user_form': user_form,
                    'profile_form': profile_form,
                    'registered': registered})
+
+
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user:
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect('/')
+            else:
+                return HttpResponse('your account is disabled')
+        else:
+            print ("Invalid login details: {0}, {1}".format(username, password)) 
+            return HttpResponse("Invalid login details supplied.")
+    else:
+        return render(request, 'act/login.html', {})
+
+
+# requestInfo
+def request_user_info(request):
+    if request.method == 'POST':
+	username = request.POST.get('username')
+	user = UserProfile.objects.get(user__username = username)
+	if user:
+	    print(user)
+
+	else:
+	    return HttpResponse('not found')
+    else:
+	return HttpResponse('search page')
+

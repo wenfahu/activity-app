@@ -1,5 +1,5 @@
 from django import forms
-from activity.act.models import UserProfile
+from act.models import UserProfile
 from django.contrib.auth.models import User
 
 
