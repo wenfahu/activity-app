@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
-from activity.act.forms import UserForm, UserProfileForm
-from activity.act.models import UserProfile, Activity, CommentInfo, RecordInfo
+from act.forms import UserForm, UserProfileForm
+from act.models import UserProfile, Activity, CommentInfo, RecordInfo
 
 # Create your views here.
 
