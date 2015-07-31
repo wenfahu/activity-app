@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	<title> Update Your Information </title>
+    </head>
+    <body>
+	<h1> Update Your Information </h1>
+	{% if registered %}
+		Thanks for registration 
+	{% else %}
+	<form id = "register_form" method = "post" action = "../">
+	    {% csrf_token %}
+	    Username : {{ username }}
+	    </br>
+		Email address: <input type = "text" name = "email" value = {{ email }} size = "50"/>
+	    </br>
+	    Old password : <input type = "password" name = "oldpassword" value = "" size = "50"/>
+	    </br>
+	    New password : <input type = "password" name = "newpassword" value = "" size = "50"/>
+		</br>
+	    <input type = "submit" value = "submit" />
+	</form>
+	{% endif %}
+	<script>
+		var myform = document.getElementById("register_form");
+		myform.action = document.URL;
+	</script>
+    </body>
+</html>

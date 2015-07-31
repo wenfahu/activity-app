@@ -60,24 +60,47 @@ def user_login(request):
         return render(request, 'act/login.html', {})
 
 
-# requestInfo
-def request_user_info(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        user = UserProfile.objects.get(user__username=username)
-        if user:
+#requestInfo
+def request_user_info(request, offset):
+    user = UserProfile.objects.get(user__username=offset)
+    if user:
             return render(request,
                           'act/request_user_info.html',
-                          {'username': username,
-                           'avatar': user.avatar,
+                          {'username': user.user.username,
+                          # 'avatar': user.avatar,
                            'Gender': user.Gender,
                            'Telephone': user.Telephone,
-                           'Type': user.Type})
+                           'Email': user.user.email,
+                           #'Type': user.Type}
+                           })
 
-        else:
-            return HttpResponse('not found')
     else:
-        return HttpResponse('search page')
+            return HttpResponse('not found')
+
+#updateProfile
+def update_user_info(request, offset):
+    if request.method == 'POST':
+        username = offset
+        email = request.POST.get('email')
+        password = request.POST.get('oldpassword')
+        user = authenticate(username=username, password=password)
+        if user:
+            if user.is_active:
+                password = request.POST.get('newpassword')
+                user.set_password(password)
+                user.email = email
+                user.save()
+                return HttpResponseRedirect('/')
+            else:
+                return HttpResponse('your account is disabled')
+        else:
+            return HttpResponse("wrong password.")
+    else:
+        user = UserProfile.objects.get(user__username=offset)
+        return render(request, 'act/update_user_info.html',
+                      {'username':offset,
+                       'email':user.user.email})
+
 
 
 #createActivity
