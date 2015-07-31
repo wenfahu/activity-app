@@ -60,24 +60,26 @@ def user_login(request):
         return render(request, 'act/login.html', {})
 
 
-#requestInfo
+# requestInfo
 def request_user_info(request, offset):
     user = UserProfile.objects.get(user__username=offset)
     if user:
-            return render(request,
-                          'act/request_user_info.html',
-                          {'username': user.user.username,
-                          # 'avatar': user.avatar,
-                           'Gender': user.Gender,
-                           'Telephone': user.Telephone,
-                           'Email': user.user.email,
-                           #'Type': user.Type}
-                           })
+        return render(request,
+                      'act/request_user_info.html',
+                      {'username': user.user.username,
+                       # 'avatar': user.avatar,
+                       'Gender': user.Gender,
+                       'Telephone': user.Telephone,
+                       'Email': user.user.email,
+                       #'Type': user.Type}
+                       })
 
     else:
-            return HttpResponse('not found')
+        return HttpResponse('not found')
 
-#updateProfile
+# updateProfile
+
+
 def update_user_info(request, offset):
     if request.method == 'POST':
         username = offset
@@ -98,12 +100,11 @@ def update_user_info(request, offset):
     else:
         user = UserProfile.objects.get(user__username=offset)
         return render(request, 'act/update_user_info.html',
-                      {'username':offset,
-                       'email':user.user.email})
+                      {'username': offset,
+                       'email': user.user.email})
 
 
-
-#createActivity
+# createActivity
 def create_activity(request):
     if request.method == 'POST':
         a = Activity.objects.create()
@@ -124,7 +125,7 @@ def create_activity(request):
         return HttpResponse('not create')
 
 
-#getActivityList
+# getActivityList
 def get_activity_list(request):
     if request.method == 'POST':
         actlist = Activity.objects.all()
@@ -132,7 +133,9 @@ def get_activity_list(request):
     else:
         return HttpResponse('not get activity list')
 
-#getActivity
+# getActivity
+
+
 def get_activity(request):
     if request.method == 'POST':
         sid = request.POST.get('SID')
@@ -145,7 +148,7 @@ def get_activity(request):
         return HttpResponse('not get activity')
 
 
-#callOffActivity
+# callOffActivity
 def call_off_activity(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -161,7 +164,7 @@ def call_off_activity(request):
         return HttpResponse('not call off activity')
 
 
-#updateActivity
+# updateActivity
 def update_activity(request):
     if request.methon == 'POST':
         username = request.POST.get('username')
@@ -169,7 +172,7 @@ def update_activity(request):
         sid = request.POST.get('SID')
         a = Activity.objects.get(SID=sid)
         update_right = False
-        for r in RecordInfo.objects.filter(SID=a, UID=u)
+        for r in RecordInfo.objects.filter(SID=a, UID=u):
             update_right = True
         if a.UID == u:
             update_right = True
@@ -187,7 +190,3 @@ def update_activity(request):
             return HttpResponse('no right to update')
     else:
         return HttpResponse('not update activity')
-
-
-
-
