@@ -9,6 +9,9 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'password')
+        help_text = {
+            'username': (''),
+        }
 
 
 class UserProfileForm(forms.ModelForm):
@@ -16,3 +19,6 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('avatar',)
+        widgets = {
+            'avatar': forms.FileInput(attrs={'class': 'display:none'})
+        }

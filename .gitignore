@@ -13,7 +13,7 @@ __pycache__/
 env/
 build/
 develop-eggs/
-dist/
+# dist/
 downloads/
 eggs/
 .eggs/
@@ -63,3 +63,11 @@ target/
 *.jpg
 .idea
 *.swp
+
+node_modules/
+test/coverage/
+coverage/
+src/**/site/
+theme.config
+semantic.json
+tasks/**/oauth.js
