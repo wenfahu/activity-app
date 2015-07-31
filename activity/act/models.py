@@ -21,11 +21,12 @@ class UserProfile(models.Model):
 
 class Activity(models.Model):
     SID = models.AutoField
+    UID = models.ForeignKey(UserProfile)
     Title = models.CharField(max_length=128)
     Content = models.TextField
     IsPublic = models.BooleanField(default=True)
     Keyword = models.CharField(max_length=128)
-    Image = models.ImageField(upload_to = 'activity_images', blank=True)
+    Image = models.ImageField(upload_to='activity_images', blank=True)
     Comments = models.ForeignKey(UserProfile)
     State = models.CharField(max_length=128)
     StartTime = models.DateField
@@ -49,3 +50,11 @@ class CommentInfo(models.Model):
     def __str__(self):
         return self.ID
 
+
+class RecordInfo(models.Model):
+    ID = models.AutoField
+    UID = models.ForeignKey(UserProfile)
+    SID = models.ForeignKey(Activity)
+    Content = models.TextField
+    IsPublic = models.BooleanField(default=True)
+    Type = models.CharField(max_length=128, default='normal')
