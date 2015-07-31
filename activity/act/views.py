@@ -139,11 +139,30 @@ def get_activity_list(request):
 def get_activity(request):
     if request.method == 'POST':
         sid = request.POST.get('SID')
-        a = Activity.objects.get(SID=sid)
-        if a:
-            return render(request, 'xxx.html', a)
+        if sid:
+            a = Activity.objects.get(SID=sid)
+            if a:
+                return render(request, 'xxx.html', a)
+            else:
+                return HttpResponse('no such activity')
         else:
-            return HttpResponse('no such activity')
+            title = request.POST.filter('Title')
+            content = request.POST.filter('Content')
+            state = request.POST.filter('State')
+            starttime = request.POST.filter('StartTime')
+            endtime = request.POST.filter('EndTime')
+            alist = Activity.objects.all()
+            if title:
+                alist = alist.filter(Title__contains=title)
+            if content:
+                alist = alist.filter(Content__contains=content)
+            if state:
+                alist = alist.filter(State__contains=state)
+            if starttime:
+                alist = alist.filter(StartTime__contains=starttime)
+            if endtime:
+                alist = alist.filter(Endtime__contains=endtime)
+            return render(request, 'xxx.html', alist)
     else:
         return HttpResponse('not get activity')
 
