@@ -64,8 +64,8 @@ class RecordInfo(models.Model):
 
 class MessageInfo(models.Model):
     ID = models.AutoField
-    UID = models.ForeignKey(UserProfile)
-    TargetID = models.ForeignKey(UserProfile)
+    UID = models.IntegerField
+    TargetID = models.IntegerField
     Title = models.CharField(max_length=54)
     Content = models.TextField
     SendTime = models.DateField
