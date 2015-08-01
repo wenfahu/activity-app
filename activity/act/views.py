@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
 from act.forms import UserForm, UserProfileForm
 from act.models import UserProfile, Activity, CommentInfo, RecordInfo
+from act.views_user import *
+from act.views_activity import *
 import json
 
 # Create your views here.
