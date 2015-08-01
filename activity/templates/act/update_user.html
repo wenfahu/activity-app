@@ -1,0 +1,43 @@
+<form id = 'update'>
+{% csrf_token %}
+<h3> user_name </h3>
+<input type = "text" name = "user_name" />
+<h3> email </h3>
+<input type = "text" name = "email" />
+<h3> oldpassword </h3>
+<input type = "text" name = "oldpassword" />
+<h3> newpassword </h3>
+<input type = "text" name = "newpassword" />
+<input id = "submit" type = "submit"></input>
+</form>
+<script>
+    $(document).ready(function(){
+	$('#update').submit(function(event){
+	    event.preventDefault();
+	    var user_name = $('input[name=user_name]').val();
+	    /*
+	    var form_data = {
+		user_name : $('input[name=user_name]').val(),
+		email : $('input[name=email]').val(),
+		oldpassword : $('input[name=oldpassword]').val(),
+		newpassword : $('input[name=newpassword]').val()
+	    }
+	    */
+	    var url = '/act/user/' + user_name +  '/update';
+	    /*
+	    $.post(url, function(data){
+		console.log(data);
+	    });
+	    */
+	    $.ajax({
+		url: url,
+		type: 'post',
+		dataType: 'json',
+		data: $('form#update').serialize(),
+		success: function(data){
+		    console.log(data);
+		}
+	    });
+	});
+    });
+</script>

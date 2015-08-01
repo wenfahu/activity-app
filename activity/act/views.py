@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
 from act.forms import UserForm, UserProfileForm
 from act.models import UserProfile, Activity, CommentInfo, RecordInfo
+import json
 
 # Create your views here.
 
@@ -61,47 +62,72 @@ def user_login(request):
 
 
 # requestInfo
-def request_user_info(request, offset):
-    user = UserProfile.objects.get(user__username=offset)
-    if user:
-        return render(request,
-                      'act/request_user_info.html',
-                      {'username': user.user.username,
-                       # 'avatar': user.avatar,
-                       'Gender': user.Gender,
-                       'Telephone': user.Telephone,
-                       'Email': user.user.email,
-                       #'Type': user.Type}
-                       })
+def request_user_info(request, user_name):
+    if request.method == 'GET':
+        user = UserProfile.objects.get(user__username=user_name)
+        if user:
+            res = {'username': user.user.username,
+                   # 'avatar': user.avatar,
+                   'Gender': user.Gender,
+                   'Telephone': user.Telephone,
+                   'Email': user.user.email,
+                   #'Type': user.Type}
+                   }
+            return HttpResponse(
+                json.dumps(res), content_type='application/json')
+#         return render(request,
+#                       'act/request_user_info.html',
+#                       {'username': user.user.username,
+#                        # 'avatar': user.avatar,
+#                        'Gender': user.Gender,
+#                        'Telephone': user.Telephone,
+#                        'Email': user.user.email,
+#                        #'Type': user.Type}
+#                        })
 
-    else:
-        return HttpResponse('not found')
+        else:
+            return HttpResponse(
+                json.dumps({'error': 'not found'}),
+                content_type='application/json')
 
 # updateProfile
 
 
-def update_user_info(request, offset):
+'''
+def update_user(request, user_name=None):
     if request.method == 'POST':
-        username = offset
-        email = request.POST.get('email')
-        password = request.POST.get('oldpassword')
-        user = authenticate(username=username, password=password)
-        if user:
-            if user.is_active:
-                password = request.POST.get('newpassword')
-                user.set_password(password)
-                user.email = email
-                user.save()
-                return HttpResponseRedirect('/')
+        return HttpResponse(json.dumps({'username': user_name}),
+                            content_type='application/json')
+'''
+
+
+def update_user(request, user_name=''):
+    if request.is_ajax():
+        if request.method == 'POST':
+            email = request.POST.get('email')
+            password = request.POST.get('oldpassword')
+            user = authenticate(username=user_name, password=password)
+            if user:
+                if user.is_active:
+                    password = request.POST.get('newpassword')
+                    user.set_password(password)
+                    user.email = email
+                    user.save()
+                    return HttpResponse(json.dumps({'status': 'succeed'}),
+                                        content_type='application/json'
+                                        )
+                else:
+                    return HttpResponse(
+                        json.dumps({'status': 'account disabled'}), content_type='application/json')
             else:
-                return HttpResponse('your account is disabled')
+                return HttpResponse(json.dumps({"status": "wrong password."}),
+                                    content_type='application/json'
+                                    )
         else:
-            return HttpResponse("wrong password.")
-    else:
-        user = UserProfile.objects.get(user__username=offset)
-        return render(request, 'act/update_user_info.html',
-                      {'username': offset,
-                       'email': user.user.email})
+            user = UserProfile.objects.get(user__username=user_name)
+            return render(request, 'act/update_user_info.html',
+                          {'username': user_name,
+                           'email': user.user.email})
 
 
 # createActivity

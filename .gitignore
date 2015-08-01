@@ -74,4 +74,4 @@ tasks/**/oauth.js
 homepage.html
 index.bak
 sitebase.html
-
+migrations/

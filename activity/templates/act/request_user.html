@@ -1,0 +1,17 @@
+<input type = "text" id = "search" />
+<input id = "btn" type = "button" value = "submit"/>
+<div id = "result">
+</div>
+<script>
+    $(document).ready(function(){
+	$('#btn').click(function(event){
+	    event.preventDefault();
+	    var args = $('#search').val();
+	    console.log(args);
+	    var url = '/act/user/' + args;
+	    $.get(url, function(data){
+		console.log(data);
+	    });
+	})
+    })
+</script>
