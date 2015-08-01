@@ -58,5 +58,19 @@ class RecordInfo(models.Model):
     IsPublic = models.BooleanField(default=True)
     Type = models.CharField(max_length=128, default='normal')
 
-    def __str(self):
+    def __str__(self):
         return self.Type
+
+
+class MessageInfo(models.Model):
+    ID = models.AutoField
+    UID = models.ForeignKey(UserProfile)
+    TargetID = models.ForeignKey(UserProfile)
+    Title = models.CharField(max_length=54)
+    Content = models.TextField
+    SendTime = models.DateField
+    StateFrom = models.BooleanField(default=True)
+    StateTo = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.Title
