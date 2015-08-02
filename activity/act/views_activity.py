@@ -1,13 +1,18 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
-from django.http import HttpResponseRedirect, HttpResponse
-from act.models import UserProfile, Activity, CommentInfo, RecordInfo
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, Http404
+from act.models import UserProfile, Activity, CommentInfo, RecordInfo, MyJsonEncoder
+from django.forms.models import model_to_dict
+from django.core import serializers
+import json
 
 # Create your views here.
 # createActivity
+
+
 def create_activity(request):
     if request.method == 'POST':
-        a = Activity().objects.create()
+        a = Activity()
         a.Title = request.POST.get('Title')
         a.Content = request.POST.get('Content')
         a.Keyword = request.POST.get('Keyword')
@@ -20,49 +25,49 @@ def create_activity(request):
         u = UserProfile.objects.get(user__username=username)
         a.UID = u
         a.save()
-        return HttpResponse('create successfully')
+        return HttpResponse(json.dumps(
+            {'status': 'successfully create activity'}), content_type='application/json')
     else:
-        return HttpResponse('not create')
+        return HttpResponse(json.dumps({'status': 'create activity failed'}),
+                            content_type='application/json')
 
 
 # getActivityList
 def get_activity_list(request):
-    if request.method == 'POST':
+    if request.method == 'GET':
         actlist = Activity.objects.all()
-        return render(request, 'xxx.html', actlist)
+        '''
+        activities = json.dumps([model_to_dict(act) for act in actlist], cls = MyJsonEncoder)
+        return HttpResponse(json.dumps(
+            {'status': 'done', 'activities': activities}), cls = MyJsonEncoder, content_type='application/json')
+	'''
+        activities = serializers.serialize('json', actlist)
+        return HttpResponse(activities,
+                            content_type='application/json')
     else:
-        return HttpResponse('not get activity list')
+        return HttpResponse(json.dumps({'status': 'request acts failed'}),
+                            content_type='application/json')
 
 # getActivity
-def get_activity(request):
-    if request.method == 'POST':
-        sid = request.POST.get('SID')
-        if sid:
-            a = Activity.objects.get(SID=sid)
-            if a:
-                return render(request, 'xxx.html', a)
+
+
+def get_activity(request, SID):
+    if request.method == 'GET':
+        if SID:
+            activity = Activity.objects.get(SID=SID)
+            if activity:
+                context = {}
+                context['title'] = activity.Title
+                context['content'] = activity.Content
+                context['conductor'] = activity.UID.user.username
+                context['isPublic'] = activity.IsPublic
+                context['tags'] = activity.Keyword
+                context['State'] = activity.State
+                context['StartTime'] = activity.StartTime
+                context['EndTime'] = activity.EndTime
+                return render(request, 'act/act_detail.html', context)
             else:
-                return HttpResponse('no such activity')
-        else:
-            title = request.POST.filter('Title')
-            content = request.POST.filter('Content')
-            state = request.POST.filter('State')
-            starttime = request.POST.filter('StartTime')
-            endtime = request.POST.filter('EndTime')
-            alist = Activity.objects.all()
-            if title:
-                alist = alist.filter(Title__contains=title)
-            if content:
-                alist = alist.filter(Content__contains=content)
-            if state:
-                alist = alist.filter(State__contains=state)
-            if starttime:
-                alist = alist.filter(StartTime__contains=starttime)
-            if endtime:
-                alist = alist.filter(Endtime__contains=endtime)
-            return render(request, 'xxx.html', alist)
-    else:
-        return HttpResponse('not get activity')
+                raise Http404
 
 
 # callOffActivity
