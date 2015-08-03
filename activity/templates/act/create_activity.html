@@ -1,0 +1,13 @@
+<form id = "activity">
+    {% csrf_token %}
+    <input name = "Title" type = "text" placeholder="Title"/>
+    <input name = "Content" type = "text" placeholder="Content"/>
+    <input name = "Keyword" type = "text" placeholder="Keyword"/>
+    <input name = "State" type = "text" placeholder="State"/>
+    <input name = "StartTime" type = "text" placeholder="StartTime:mm/dd"/>
+    <input name = "EndTime" type = "text" placeholder="EndTime:mm/dd"/>
+    <input name = "username" type = "text" placeholder="username"/>
+    <input type = "submit" />
+</form>
+{% load staticfiles %}
+<script src = "{% static "act/create_activity.js" %} " ></script>

@@ -65,6 +65,7 @@ def get_activity(request, SID):
                 context['State'] = activity.State
                 context['StartTime'] = activity.StartTime
                 context['EndTime'] = activity.EndTime
+                context['sid'] = activity.SID
                 return render(request, 'act/act_detail.html', context)
             else:
                 raise Http404
