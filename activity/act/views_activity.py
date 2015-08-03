@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, Http40
 from act.models import UserProfile, Activity, CommentInfo, RecordInfo, MyJsonEncoder
 from django.forms.models import model_to_dict
 from django.core import serializers
+from django.core.exceptions import ObjectDoesNotExist
 import json
 
 # Create your views here.
@@ -57,6 +58,12 @@ def get_activity(request, SID):
             activity = Activity.objects.get(SID=SID)
             if activity:
                 context = {}
+                me = request.user
+                try:
+                    myStatus = activity.Members.get(username=me.username)
+                    context['myStatus'] = True
+                except ObjectDoesNotExist:
+                    context['myStatus'] = False
                 context['title'] = activity.Title
                 context['content'] = activity.Content
                 context['conductor'] = activity.UID.user.username

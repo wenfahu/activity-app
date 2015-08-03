@@ -5,11 +5,18 @@
     #sid{
 	visibility: hidden;
     }
+    #user_status{
+    }
 </style>
 {% if isPublic %}
-<button id = "follow" class = "ui toggle button">Follow</button>
+{% if myStatus %}
+<button id = "follow" class = "ui toggle button active">Joined</button>
+{% else %}
+<button id = "follow" class = "ui toggle button">Join</button>
+{% endif %}
 <div id = 'sid'>{{ sid }}</div>
 {{ title }}
+<div id = "user_status">{{ myStatus }}</div>
 {{ content }}
 {{ conductor }}
 {{ Tags }}

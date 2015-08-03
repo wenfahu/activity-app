@@ -42,7 +42,7 @@ class Activity(models.Model):
     Content = models.CharField(max_length=256, default = '')
     IsPublic = models.BooleanField(default=True)
     Keyword = models.CharField(max_length=128)
-    Members = models.ManyToManyField(User)
+    Members = models.ManyToManyField(User, related_name = 'acts_in')
     Image = models.ImageField(
         upload_to='activity_images',
         blank=True,

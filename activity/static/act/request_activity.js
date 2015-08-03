@@ -1,9 +1,24 @@
 $(document).ready(function(){
-    semantic.button.ready();
+    //semantic.button.ready();
+    $('button#follow').
+	state({
+	    text:{
+		inactive : 'Join',
+		active: 'Joined'
+	    }
+    });
+    var $status = $('#user_status').text();
+    if($status == 'True'){
+	var $toggle = true;
+    }
+    else{
+	$toggle = false;
+    }
     $('button#follow').click(function(){
 	var $sid = $('#sid').text();
 	console.log($sid);
-	var $url = '/act/activity/' + $sid + '/join';
+	var $joinUrl = '/act/activity/' + $sid + '/join';
+	var $quitUrl = '/act/activity/' + $sid + '/quit';
 	var csrftoken = $.cookie('csrftoken');
 	function csrfSafeMethod(method) {
 	// these HTTP methods do not require CSRF protection
@@ -16,14 +31,22 @@ $(document).ready(function(){
 		}
 	    }
 	});
-	$.post($url, function(data){
-	    console.log(data);
-	})
+	if($toggle){
+	    $.post($quitUrl, function(data){
+		console.log(data);
+	    })
+	}
+	else {
+	    $.post($joinUrl, function(data){
+		console.log(data);
+	    })
+	}
+	$toggle = !$toggle;
     })
 })
 
+/*
 var semantic.button = {};
-
 var semantic.button.ready = function(){
     var 
     $button = $('.ui.buttons .button'),
@@ -46,5 +69,6 @@ var semantic.button.ready = function(){
     });
 };
 
+*/
 
 

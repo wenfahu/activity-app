@@ -153,6 +153,16 @@ def participate_activity(request, SID):
     if request.method == 'POST':
         # usrname = request.POST.get('username')
         user = request.user
+        # print (user)
         act = Activity.objects.get(SID=SID)
         act.Members.add(user)
         return JsonResponse({'status': 'added'})
+
+
+@login_required
+def quit_activity(request, SID):
+    if request.method == 'POST':
+        user = request.user
+        act = Activity.objects.get(SID=SID)
+        act.Members.remove(user)
+        return JsonResponse({'status': 'removed'})
