@@ -40,7 +40,7 @@ def get_activity_list(request):
         activities = json.dumps([model_to_dict(act) for act in actlist], cls = MyJsonEncoder)
         return HttpResponse(json.dumps(
             {'status': 'done', 'activities': activities}), cls = MyJsonEncoder, content_type='application/json')
-	'''
+    '''
         activities = serializers.serialize('json', actlist)
         return HttpResponse(activities,
                             content_type='application/json')

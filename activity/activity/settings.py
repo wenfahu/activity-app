@@ -61,7 +61,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'django.contrib.sites',
     # 'rest_framework',
-    'django_comments',
+    # 'django_comments',
     'act',
 )
 

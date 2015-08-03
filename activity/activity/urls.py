@@ -10,6 +10,6 @@ urlpatterns = patterns('',
 
     url(r'^$', 'activity.views.home', name='home'),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^comment/', include('django_comments.urls')),
+    # url(r'^comment/', include('django_comments.urls')),
     url(r'^act/', include('act.urls')),
 )
