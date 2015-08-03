@@ -1,0 +1,39 @@
+{% load staticfiles %}
+<div id = "list" class = "ui cards">
+
+</div>
+<script id = "tmpl" type = "text/template" >
+    <% _.each(data, function(item) {%>
+	<div class = "card">
+	    <div class = "content">
+		<div class = "header">
+		    <%= item.fields.Title %>
+		</div>
+		<div class = "ui grid">
+		    <div class = "six wide column">
+			By <%= item.fields.username %>
+		    </div>
+		    <div class = "six wide column">
+			Tags : <%= item.fields.Keyword %>
+		    </div>
+		    <div class = "discription">
+			<%= item.fields.Content %>
+		    </div>
+		    <div class = "six wide column">
+			<%= item.fields.State %>
+		    </div>
+		    <div class = "six wide column">
+			<%= item.fields.StartTime %> To <%= item.fields.EndTime %>
+		    </div>
+		</div>
+		<a href="/act/activity/<%= item.fields.SID %>/request">
+		    <div class = "ui bottom attached button">
+			<i icon="add icon"></i>
+			Join in
+		    </div>
+		</a>
+	    </div>
+	</div>
+    <% }) %>
+</script>
+<script src = "{% static "act/request_activity_list.js" %}" ></script>

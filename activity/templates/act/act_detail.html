@@ -1,0 +1,24 @@
+{% extends "base.html"%}
+{% block content %}
+{% load staticfiles %}
+<style>
+    #sid{
+	visibility: hidden;
+    }
+</style>
+{% if isPublic %}
+<button id = "follow" class = "ui toggle button">Follow</button>
+<div id = 'sid'>{{ sid }}</div>
+{{ title }}
+{{ content }}
+{{ conductor }}
+{{ Tags }}
+{{ State }}
+{{ StartTime }}
+{{ EndTime }}
+{% else %}
+This is a private arrange
+{% endif %}
+<script src = "{% static "act/request_activity.js" %}"></script>
+<script src = "{% static "jquery/jquery.cookie.min.js" %}"></script>
+{% endblock %}

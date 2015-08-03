@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
-from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from act.forms import UserForm, UserProfileForm
 from act.models import UserProfile, Activity, CommentInfo, RecordInfo, MessageInfo
 import json
 
 # Create your views here.
+
 
 def register(request):
     registered = False
@@ -81,6 +83,9 @@ def request_user_info(request, user_name):
                 content_type='application/json')
 
 # updateProfile
+
+
+@login_required
 def update_user(request, user_name=''):
     if request.is_ajax():
         if request.method == 'POST':
@@ -111,6 +116,7 @@ def update_user(request, user_name=''):
 
 
 # write a message
+@login_required
 def edit_message(request):
     if request.method == 'POST':
         m = MessageInfo()
@@ -118,13 +124,16 @@ def edit_message(request):
         m.UID = UserProfile.objects.get(user__username=usrname).id
         m.TargetID = request.POST.get('Target')
         m.Title = request.POST.get('Title')
-        m.Content =request.POST.get('Content')
+        m.Content = request.POST.get('Content')
         m.save()
         return HttpResponse('email has been sent!')
     else:
         return HttpResponse('New Message?')
 
-#write a comment
+# write a comment
+
+
+@login_required
 def edit_comment(request):
     if request.method == 'POST':
         c = CommentInfo()
@@ -138,23 +147,12 @@ def edit_comment(request):
         return HttpResponse('New Comment?')
 
 
-#participate an activity
-def participate_activity(request):
+# participate an activity
+@login_required
+def participate_activity(request, SID):
     if request.method == 'POST':
-        r = RecordInfo()
-        usrname = request.POST.get('username')
-        usr = UserProfile.objects.get(user__username=usrname)
-        actid = request.POST.get('activity_sid')
-        act = Activity.objects.get(SID=actid)
-        r.UID = usr
-        r.SID = act
-        r.Content = request.POST.get('register_info')
-        isPublic = request.POST.get('ispublic')
-        if isPublic == 'true':
-            r.IsPublic = 'true'
-        else:
-            r.IsPublic = 'false'
-        r.save()
-        return HttpResponse('you have registered in the activity!')
-    else:
-        return HttpResponse('Participate?')
+        # usrname = request.POST.get('username')
+        user = request.user
+        act = Activity.objects.get(SID=SID)
+        act.Members.add(user)
+        return JsonResponse({'status': 'added'})
