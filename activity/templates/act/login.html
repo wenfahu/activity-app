@@ -2,7 +2,7 @@
   {% block content %}
   <style type="text/css">
     body {
-      background-color: #DADADA;
+      background-color: #1b1c1d;
     }
     body > .grid {
       height: 100%;
@@ -13,6 +13,12 @@
     .column {
       max-width: 450px;
     }
+	
+	.ui.stacked.segment {
+	  background-color: #1b1c1d;
+	}
+	
+	
   </style>
   <script>
   $(document)
@@ -50,6 +56,21 @@
   </script>
 </head>
 <body>
+<div class="ui container">
+      <div class="ui large secondary inverted pointing menu">
+        <a class="toc item">
+          <i class="sidebar icon"></i>
+        </a>
+        <a class="active item">Home</a>
+        <a class="item">Activity</a>
+        <a class="item">Users</a>
+        <a class="item">Dashboard</a>
+        <div class="right item">
+          <a class="item" href="/act/login/">Login</a>
+          <a class="item" href="/act/register/">Signup</a>
+        </div>
+      </div>
+    </div>
 
 <div class="ui middle aligned center aligned grid">
   <div class="column">
@@ -82,7 +103,7 @@
     </form>
 
     <div class="ui message">
-      New to us? <a href="#">Sign Up</a>
+      New to us? <a href="/act/register/">Sign Up</a>
     </div>
   </div>
 </div>
