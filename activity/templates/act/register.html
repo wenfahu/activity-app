@@ -2,7 +2,7 @@
 {% block content %}
   <style type="text/css">
     body {
-      background-color: #DADADA;
+      background-color: #1b1c1d;
     }
     body > .grid {
       height: 100%;
@@ -31,17 +31,47 @@
 	opacity: 0;
 	filter: alpha(opacity=0);
     }
+	
+	.ui.stacked.segment {
+	  background-color: #1b1c1d;
+	  font-size: 17px;
+	}
+	
+	.ui.piled.segment {
+	  background-color: #1b1c1d;
+	  font-size: 17px;
+	}
+
   </style>
 {% if registered %}
 Thanks for registration 
 {% else %}
+
+
+<div class="ui container">
+      <div class="ui large secondary inverted pointing menu">
+        <a class="toc item">
+          <i class="sidebar icon"></i>
+        </a>
+        <a class="active item">Home</a>
+        <a class="item">Activity</a>
+        <a class="item">Users</a>
+        <a class="item">Dashboard</a>
+        <div class="right item">
+          <a class="item" href="/act/login/">Login</a>
+          <a class="item" href="/act/register/">Signup</a>
+        </div>
+      </div>
+    </div>
+
+
 <div class = "ui middle aligned center aligned grid">
     <div class = "column">
 	<h2 class = "ui teal image header">
-	    <i class = "add square icon"></i>
+	    <!--<i class = "add square icon"></i>
 	    <div class = "content">
 		Register your account
-	    </div>
+	    </div>-->
 	    <form id = "user_form" class = "ui large form" method = "post" action = "/act/register/" enctype = "multipart/form-data">
 		<div class = "ui stacked segment">
 		    {% csrf_token %}
@@ -49,7 +79,7 @@ Thanks for registration
 		</div>
 		<div class = "ui piled segment">
 		    <div class = "ui left icon "> 
-			<i class = "big photo icon"></i>
+			<!--<i class = "big photo icon"></i>-->
 			<div class = "Upload ui button teal">
 			    {{ profile_form }}
 			</div>
