@@ -19,6 +19,13 @@
 <div id = "user_status">{{ myStatus }}</div>
 {{ content }}
 {{ conductor }}
+<div>
+    members
+{% for member in members %}
+{{ member.username }}
+<img src="/media/{{member.avatar}}"/>
+{% endfor %}
+</div>
 {{ Tags }}
 {{ State }}
 {{ StartTime }}

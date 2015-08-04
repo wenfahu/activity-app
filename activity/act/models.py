@@ -18,7 +18,7 @@ class MyJsonEncoder(json.JSONEncoder):
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, related_name = 'userprofile')
     avatar = models.ImageField(upload_to='profile_images', blank=True)
     Gender = models.CharField(max_length=128)
     Telephone = models.CharField(max_length=20)
@@ -26,6 +26,16 @@ class UserProfile(models.Model):
     Messages = models.TextField
     Likes = models.TextField
     Comments = models.TextField
+
+    def save(self):
+        if not self.avatar:
+            return
+        super(UserProfile, self).save()
+        from PIL import Image
+        image = Image.open(self.avatar)
+        size = (100, 100)
+        image = image.resize(size, Image.ANTIALIAS)
+        image.save(self.avatar.path)
 
     def __str__(self):
         return self.user.username
@@ -39,17 +49,17 @@ class Activity(models.Model):
         default=uuid.uuid4)
     UID = models.ForeignKey(UserProfile)
     Title = models.CharField(max_length=128)
-    Content = models.CharField(max_length=256, default = '')
+    Content = models.CharField(max_length=256, default='')
     IsPublic = models.BooleanField(default=True)
     Keyword = models.CharField(max_length=128)
-    Members = models.ManyToManyField(User, related_name = 'acts_in')
+    Members = models.ManyToManyField(User, related_name='acts_in')
     Image = models.ImageField(
         upload_to='activity_images',
         blank=True,
         default='')
     State = models.CharField(max_length=128)
-    StartTime = models.DateField(default= timezone.now)
-    EndTime = models.DateField(default= timezone.now)
+    StartTime = models.DateField(default=timezone.now, null = True, blank = True)
+    EndTime = models.DateField(default=timezone.now,null = True, blank = True)
     RegisterForm = models.TextField
     BlackList = models.TextField
 

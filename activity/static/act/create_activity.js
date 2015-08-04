@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    $('.datepicker').datepicker({dateFormat: 'yy-mm-dd'});
     $('form#activity').submit(function(event){
 	event.preventDefault();
 	$.ajax({

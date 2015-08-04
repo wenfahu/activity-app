@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, Http404
 from act.models import UserProfile, Activity, CommentInfo, RecordInfo, MyJsonEncoder
 from django.forms.models import model_to_dict
+from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from django.core.exceptions import ObjectDoesNotExist
 import json
@@ -12,6 +13,8 @@ import json
 
 
 def create_activity(request):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/act/login/')
     if request.method == 'POST':
         a = Activity()
         a.Title = request.POST.get('Title')
@@ -22,8 +25,9 @@ def create_activity(request):
         a.StartTime = request.POST.get('StartTime')
         a.EndTime = request.POST.get('EndTime')
         a.RegisterForm = request.POST.get('RegisterForm')
-        username = request.POST.get('username')
-        u = UserProfile.objects.get(user__username=username)
+        user = request.user
+        print(user)
+        u = UserProfile.objects.get(user=user)
         a.UID = u
         a.save()
         return HttpResponse(json.dumps(
@@ -52,6 +56,7 @@ def get_activity_list(request):
 # getActivity
 
 
+@login_required
 def get_activity(request, SID):
     if request.method == 'GET':
         if SID:
@@ -64,6 +69,8 @@ def get_activity(request, SID):
                     context['myStatus'] = True
                 except ObjectDoesNotExist:
                     context['myStatus'] = False
+                mbs = activity.Members.all()
+                context['members'] = [mb.userprofile for mb in mbs]
                 context['title'] = activity.Title
                 context['content'] = activity.Content
                 context['conductor'] = activity.UID.user.username

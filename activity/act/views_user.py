@@ -30,6 +30,8 @@ def register(request):
 
             registered = True
 
+            return HttpResponseRedirect('/act/login')
+
         else:
             print(user_form.errors, profile_form.errors)
 
