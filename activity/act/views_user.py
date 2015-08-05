@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from act.forms import UserForm, UserProfileForm
-from act.models import UserProfile, Activity, CommentInfo, RecordInfo, MessageInfo, MyJsonEncoder
+from act.models import UserProfile, Activity, CommentInfo, MessageInfo, MyJsonEncoder
 from django.core import serializers
 from django.core.exceptions import ObjectDoesNotExist
 import bson
@@ -57,7 +57,7 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request, user)
-                return HttpResponseRedirect('/')
+                return HttpResponseRedirect('/act/dashboard')
             else:
                 return HttpResponse('your account is disabled')
         else:
@@ -73,7 +73,7 @@ def request_user_page(request, user_name):
 def user_logout(request):
     if request.method == 'POST':
         logout(request)
-        return render(request, '/', {})
+        return HttpResponseRedirect('/')
     else:
         return HttpResponse('you are not online')
 
@@ -90,14 +90,18 @@ def request_user_info(request, user_name):
         user = UserProfile.objects.get(user__username=user_name)
         if user:
             acts = user.user.acts_in.all()
+            acts_admin = user.acts_admin.all()
+            acts_admin_list = [ dict(zip(['title', 'start_time', 'end_time', 'sid'], [act.Title, act.StartTime, act.EndTime, act.SID])) for act in acts_admin]
             act_list = [ dict(zip(['title', 'start_time', 'end_time', 'sid'], [act.Title, act.StartTime, act.EndTime, act.SID])) for act in acts]
             res = {'username': user.user.username,
                    'avatar': user.avatar,
                    'Gender': user.Gender,
                    'acts' : act_list,
+                   'acts_admin': acts_admin_list,
                    'Telephone': user.Telephone,
                    'Email': user.user.email,
                    'acts_count' : len(act_list),
+                   'acts_admin_count' : len(acts_admin_list),
                    #'Type': user.Type}
                    }
             return HttpResponse(
@@ -112,9 +116,10 @@ def request_user_info(request, user_name):
 
 
 @login_required
-def update_user(request, user_name=''):
+def update_user(request):
     if request.is_ajax():
         if request.method == 'POST':
+            user_name = request.user.username
             email = request.POST.get('email')
             password = request.POST.get('oldpassword')
             user = authenticate(username=user_name, password=password)

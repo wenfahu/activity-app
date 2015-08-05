@@ -12,6 +12,17 @@
 	min-width: 500px;
     }
 </style>
+<div class = "ui container">
+<div class = "ui secondary menu">
+    <a href="{% url 'dashboard' %}" class = "active item">
+	Dashboard
+    </a>
+    <div class = "right menu">
+	<a href = "{% url 'logout' %}" class = "ui item">
+	    Logout
+	</a>
+    </div>
+</div>
 {% if isPublic %}
 <div class = "ui centered card">
 <div class = "content ui segments">
@@ -82,6 +93,7 @@
 {% else %}
 This is a private arrange
 {% endif %}
+</div>
 <script src = "{% static "act/request_activity.js" %}"></script>
 <script src = "{% static "jquery/jquery.cookie.min.js" %}"></script>
 {% endblock %}

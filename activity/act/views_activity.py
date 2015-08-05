@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, Http404
-from act.models import UserProfile, Activity, CommentInfo, RecordInfo, MyJsonEncoder
+from act.models import UserProfile, Activity, CommentInfo, MyJsonEncoder
 from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
 from django.core import serializers

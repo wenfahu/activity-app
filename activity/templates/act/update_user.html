@@ -1,20 +1,23 @@
-<form id = 'update'>
+<form id = 'update' class = "ui form">
 {% csrf_token %}
-<h3> user_name </h3>
-<input type = "text" name = "user_name" />
-<h3> email </h3>
-<input type = "text" name = "email" />
-<h3> oldpassword </h3>
-<input type = "text" name = "oldpassword" />
-<h3> newpassword </h3>
-<input type = "text" name = "newpassword" />
-<input id = "submit" type = "submit"></input>
+<div class = "field">
+    <label> E-mail </label>
+    <input type = "text" name = "email" placeholder = "E-mail"/>
+</div>
+<div class = "field">
+    <label> original password </label>
+    <input type = "text" name = "oldpassword" placeholder = "Original Passward"/>
+</div>
+<div class = "field">
+    <label> new password </label>
+    <input type = "text" name = "newpassword" placeholder = "New Passward"/>
+</div>
+<input class = "ui button" id = "submit" type = "submit" value = "Submit"></input>
 </form>
 <script>
     $(document).ready(function(){
 	$('#update').submit(function(event){
 	    event.preventDefault();
-	    var user_name = $('input[name=user_name]').val();
 	    /*
 	    var form_data = {
 		user_name : $('input[name=user_name]').val(),
@@ -23,7 +26,7 @@
 		newpassword : $('input[name=newpassword]').val()
 	    }
 	    */
-	    var url = '/act/user/' + user_name +  '/update';
+	    var url = '/act/user/update';
 	    /*
 	    $.post(url, function(data){
 		console.log(data);

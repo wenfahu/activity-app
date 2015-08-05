@@ -52,7 +52,7 @@ class Activity(models.Model):
         blank=True,
         unique=True,
         default=uuid.uuid4)
-    UID = models.ForeignKey(UserProfile)
+    UID = models.ForeignKey(UserProfile, related_name='acts_admin')
     Title = models.CharField(max_length=128)
     Content = models.CharField(max_length=256, default='')
     IsPublic = models.BooleanField(default=True)
