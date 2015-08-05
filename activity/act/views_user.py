@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from act.forms import UserForm, UserProfileForm
@@ -69,6 +69,13 @@ def user_login(request):
 def request_user_page(request, user_name):
     if request.method == 'GET':
         return render(request, 'act/user_info.html', { 'username' : user_name})
+
+def user_logout(request):
+    if request.method == 'POST':
+        logout(request)
+        return render(request, '/', {})
+    else:
+        return HttpResponse('you are not online')
 
 # requestInfo
 def request_user_info(request, user_name):
@@ -179,6 +186,7 @@ def quit_activity(request, SID):
         act.Members.remove(user)
         return JsonResponse({'status': 'removed'})
 
+
 def get_user_list(request):
     if request.method == 'GET':
         context = {}
@@ -200,3 +208,4 @@ def get_user_list(request):
         res = json.dumps(user_list, cls = MyJsonEncoder) 
         return HttpResponse(res,
                             content_type='application/json')
+
