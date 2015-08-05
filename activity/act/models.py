@@ -4,17 +4,22 @@ from django.db.models.fields.files import ImageFieldFile, FileField
 import uuid
 import json
 from django.utils import timezone
+import datetime
+from time import mktime
 
 # Create your models here.
 
 
 class MyJsonEncoder(json.JSONEncoder):
 
-    def default(self, img):
-        if isinstance(img, ImageFieldFile):
-            return super(MyJsonEncoder, self).default(str(img))
+    def default(self, obj):
+        if isinstance(obj, ImageFieldFile):
+            return str(obj)
+        elif isinstance(obj, datetime.date):
+            # return int(mktime(obj.timetuple()))
+            return obj.isoformat()
         else:
-            return super(MyJsonEncoder, self).default(img)
+            return super(MyJsonEncoder, self).default(obj)
 
 
 class UserProfile(models.Model):

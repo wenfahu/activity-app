@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+{% load staticfiles %}
+<style>
+    #username{
+	display : none; 
+    }
+</style>
+<div id = "username">{{ username}}</div>
+<div id = "content"></div>
+
+<script type = "text/template" id = "tmpl">
+    <div class = "ui piled segment">
+	<div class = "ui centered card">
+	    <div class = "image">
+		<img src = "/media/<%= data.avatar %>">
+	    </div>
+	    <div class = "content">
+		<div class = "header"><%= data.username %></div>
+		<div class = "meta">
+		    <% if ( data.Gender == 'male'){ %>
+			<i class = "woman icon"></i>
+		    <% } %>
+		    <% if( data.Gender == 'female'){ %>
+			<i class = "man icon"></i>
+		    <% } %>
+		</div>
+		<div class = "description"> 
+		    E-mail:
+		    <%= data.Email %>
+		</div>
+	    </div>
+	    <div class = "extra content">
+		<a>
+		    activities joined : <%= data.acts_count %>
+		</a>
+	    </div>
+	</div>
+	<div class = "ui middle aligned animated list">
+	    <% _.each(data.acts, function(item){ %>
+		<div class = "item">
+		    <div class = "content">
+			<div class = "header">
+			    <%= item.title %>
+			</div>
+			<div class = "description">
+			    <%= item.start_time %>
+			    <%= item.end_time %>
+			</div>
+		    </div>
+		</div>
+	    <% }) %>
+	</div>
+    </div>
+</script>
+<script src = "{% static "act/user_info.js" %}"></script>
+{% endblock %}

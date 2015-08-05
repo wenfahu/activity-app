@@ -3,7 +3,10 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from act.forms import UserForm, UserProfileForm
-from act.models import UserProfile, Activity, CommentInfo, RecordInfo, MessageInfo
+from act.models import UserProfile, Activity, CommentInfo, RecordInfo, MessageInfo, MyJsonEncoder
+from django.core import serializers
+from django.core.exceptions import ObjectDoesNotExist
+import bson
 import json
 
 # Create your views here.
@@ -63,21 +66,28 @@ def user_login(request):
     else:
         return render(request, 'act/login.html', {})
 
+def request_user_page(request, user_name):
+    if request.method == 'GET':
+        return render(request, 'act/user_info.html', { 'username' : user_name})
 
 # requestInfo
 def request_user_info(request, user_name):
     if request.method == 'GET':
         user = UserProfile.objects.get(user__username=user_name)
         if user:
+            acts = user.user.acts_in.all()
+            act_list = [ dict(zip(['title', 'start_time', 'end_time'], [act.Title, act.StartTime, act.EndTime])) for act in acts]
             res = {'username': user.user.username,
-                   # 'avatar': user.avatar,
+                   'avatar': user.avatar,
                    'Gender': user.Gender,
+                   'acts' : act_list,
                    'Telephone': user.Telephone,
                    'Email': user.user.email,
+                   'acts_count' : len(act_list),
                    #'Type': user.Type}
                    }
             return HttpResponse(
-                json.dumps(res), content_type='application/json')
+                json.dumps(res, cls = MyJsonEncoder), content_type='application/json')
 
         else:
             return HttpResponse(
@@ -168,3 +178,25 @@ def quit_activity(request, SID):
         act = Activity.objects.get(SID=SID)
         act.Members.remove(user)
         return JsonResponse({'status': 'removed'})
+
+def get_user_list(request):
+    if request.method == 'GET':
+        context = {}
+        try:
+            users = UserProfile.objects.all()
+        except ObjectDoesNotExist:
+            return JsonResponse({'status': 'not found'})
+        user_list = []
+        for user in users:
+            item = {}
+            item['username'] = user.user.username
+            item['email'] = user.user.email
+            item['phone'] = user.Telephone
+            item['avatar'] = user.avatar
+            item['gender'] = user.Gender
+            user_list.append(item)
+
+        # res = serializers.serialize('json', user_list, fields = ('user', 'phone', 'avatar', 'gender'))
+        res = json.dumps(user_list, cls = MyJsonEncoder) 
+        return HttpResponse(res,
+                            content_type='application/json')
