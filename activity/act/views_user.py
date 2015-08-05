@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from act.forms import UserForm, UserProfileForm
@@ -65,10 +65,10 @@ def user_login(request):
 
 def user_logout(request):
     if request.method == 'POST':
-	    logout(request)
-		return render(request, '/', {})
-	else:
-	    return HttpResponse('you are not online')
+        logout(request)
+        return render(request, '/', {})
+    else:
+        return HttpResponse('you are not online')
 
 		
 

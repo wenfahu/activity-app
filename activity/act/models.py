@@ -91,7 +91,7 @@ class RecordInfo(models.Model):
     SID = models.ForeignKey(Activity)
     Content = models.TextField
     IsPublic = models.BooleanField(default=True)
-    Type = models.CharField(max_length=128, default='normal')
+    Type = models.CharField(max_length=128, default='normal') # normal manager organizer
 
     def __str__(self):
         return self.Type

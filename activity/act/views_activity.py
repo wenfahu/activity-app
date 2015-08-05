@@ -29,7 +29,13 @@ def create_activity(request):
         print(user)
         u = UserProfile.objects.get(user=user)
         a.UID = u
+        r = RecordInfo.objects.create()
+        r.UID = u
+        r.SID = a
+        r.IsPublic = 'True' # according to the checkbox
+        r.Type = 'organizer'
         a.save()
+        r.save()
         return HttpResponse(json.dumps(
             {'status': 'successfully create activity'}), content_type='application/json')
     else:
@@ -127,3 +133,18 @@ def update_activity(request):
             return HttpResponse('no right to update')
     else:
         return HttpResponse('not update activity')
+
+def on_manager(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        u = UserProfile.objects.get(user__username=username)
+        sid = request.POST.get('sid')
+        a = Activity.objects.get(SID=sid)
+        r = RecordInfo.objects.get(UID=u, SID=a)
+        if r:
+            r.Type = 'manager'
+            r.save()
+        else:
+            return HttpResponse('no such participator')
+    else:
+        return HttpResponse('not on manager')
