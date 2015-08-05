@@ -77,6 +77,7 @@ def get_activity(request, SID):
                     context['myStatus'] = False
                 mbs = activity.Members.all()
                 context['members'] = [mb.userprofile for mb in mbs]
+                context['member_count'] = mbs.count()
                 context['title'] = activity.Title
                 context['content'] = activity.Content
                 context['conductor'] = activity.UID.user.username

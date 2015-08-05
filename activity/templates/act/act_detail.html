@@ -6,30 +6,72 @@
 	visibility: hidden;
     }
     #user_status{
+	visibility: hidden;
     }
 </style>
 {% if isPublic %}
-{% if myStatus %}
-<button id = "follow" class = "ui toggle button active">Joined</button>
-{% else %}
-<button id = "follow" class = "ui toggle button">Join</button>
-{% endif %}
-<div id = 'sid'>{{ sid }}</div>
-{{ title }}
-<div id = "user_status">{{ myStatus }}</div>
-{{ content }}
-{{ conductor }}
-<div>
-    members
-{% for member in members %}
-{{ member.username }}
-<img src="/media/{{member.avatar}}"/>
-{% endfor %}
+<div class = "content ui segments">
+    <div class = "header ui segment">
+	{{ title }}
+    </div>
+    <div class = "meta ui red segment">
+	<div class = "ui grid container">
+	    <div class = "four wide column">
+		<i class = "user icon">{{ conductor }}</i>
+	    </div>
+	    <div class = "eight wide column">
+		<i class = "tags icon"> {{ Tags }}</i>
+	    </div>
+	    <div class = "four wide column">
+		{{ State }}
+	    </div>
+	</div>
+    </div>
+    <div class = "description ui blue segment">
+	{{ content }}
+	<div class = "ui bottom floated">
+	    <i class = "users icon"></i>
+		{{member_count}} user(s) already in
+	</div>
+    </div>
+    <div class = "extra ui green segment">
+
+	<div class = "ui label">
+	    {{ StartTime }}
+	</div>
+	To
+	<div class = "ui label">
+	    {{ EndTime }}
+	</div>
+
+	{% if myStatus %}
+	<button id = "follow" class = "ui right floated toggle button active">Joined</button>
+	{% else %}
+	<button id = "follow" class = "ui right floated toggle button">Join</button>
+	{% endif %}
+
+    </div>
 </div>
-{{ Tags }}
-{{ State }}
-{{ StartTime }}
-{{ EndTime }}
+<div id = 'sid'>{{ sid }}</div>
+<div id = "user_status">{{ myStatus }}</div>
+<h4 class = "ui horizontal divider header">
+    <i class "users icon"></i>
+    Members
+</h4>
+<div>
+    <div class = "ui middle aligned animated list">
+	{% for member in members %}
+	<div class = "item">
+	    <img class = "ui avatar image" src = "/media/{{member.avatar}}">
+	    <div class = "content">
+		<div class = "header">
+		    {{ member.user.username }}
+		</div>
+	    </div>
+	</div>
+	{% endfor %}
+    </div>
+</div>
 {% else %}
 This is a private arrange
 {% endif %}
