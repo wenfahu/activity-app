@@ -63,6 +63,14 @@ def user_login(request):
     else:
         return render(request, 'act/login.html', {})
 
+def user_logout(request):
+    if request.method == 'POST':
+	    logout(request)
+		return render(request, '/', {})
+	else:
+	    return HttpResponse('you are not online')
+
+		
 
 # requestInfo
 def request_user_info(request, user_name):
@@ -168,3 +176,4 @@ def quit_activity(request, SID):
         act = Activity.objects.get(SID=SID)
         act.Members.remove(user)
         return JsonResponse({'status': 'removed'})
+		
