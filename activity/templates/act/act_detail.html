@@ -55,7 +55,7 @@
 <div id = 'sid'>{{ sid }}</div>
 <div id = "user_status">{{ myStatus }}</div>
 <h4 class = "ui horizontal divider header">
-    <i class "users icon"></i>
+    <i class "user icon"></i>
     Members
 </h4>
 <div>
@@ -65,7 +65,9 @@
 	    <img class = "ui avatar image" src = "/media/{{member.avatar}}">
 	    <div class = "content">
 		<div class = "header">
-		    {{ member.user.username }}
+		    <a href = "/act/user/{{member.user.username}}/page">
+			{{ member.user.username }}
+		    </a>
 		</div>
 	    </div>
 	</div>

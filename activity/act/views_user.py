@@ -83,7 +83,7 @@ def request_user_info(request, user_name):
         user = UserProfile.objects.get(user__username=user_name)
         if user:
             acts = user.user.acts_in.all()
-            act_list = [ dict(zip(['title', 'start_time', 'end_time'], [act.Title, act.StartTime, act.EndTime])) for act in acts]
+            act_list = [ dict(zip(['title', 'start_time', 'end_time', 'sid'], [act.Title, act.StartTime, act.EndTime, act.SID])) for act in acts]
             res = {'username': user.user.username,
                    'avatar': user.avatar,
                    'Gender': user.Gender,

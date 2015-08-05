@@ -36,15 +36,21 @@
 		</a>
 	    </div>
 	</div>
+	<h4 class = "ui horizontal divider header">
+	    <i class = "certificate icon"></i>
+	    Activities In
+	</h4>
 	<div class = "ui middle aligned animated list">
 	    <% _.each(data.acts, function(item){ %>
 		<div class = "item">
 		    <div class = "content">
 			<div class = "header">
-			    <%= item.title %>
+			    <a href = "/act/activity/<%= item.sid %>/request">
+				<%= item.title %>
+			    </a>
 			</div>
 			<div class = "description">
-			    <%= item.start_time %>
+			    <%= item.start_time %> to 
 			    <%= item.end_time %>
 			</div>
 		    </div>
