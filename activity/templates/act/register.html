@@ -2,7 +2,8 @@
 {% block content %}
   <style type="text/css">
     body {
-      background-color: #1b1c1d;
+      background-color: #A69F94;
+      color : #D8E0F2;
     }
     body > .grid {
       height: 100%;
@@ -31,69 +32,61 @@
 	opacity: 0;
 	filter: alpha(opacity=0);
     }
-	
-	.ui.stacked.segment {
-	  background-color: #1b1c1d;
-	  font-size: 17px;
-	}
-	
-	.ui.piled.segment {
-	  background-color: #1b1c1d;
-	  font-size: 17px;
-	}
-
   </style>
 {% if registered %}
 Thanks for registration 
 {% else %}
 
 
-<div class="ui container">
-      <div class="ui large secondary inverted pointing menu">
-        <a class="toc item">
-          <i class="sidebar icon"></i>
-        </a>
-        <a class="active item">Home</a>
-        <a class="item">Activity</a>
-        <a class="item">Users</a>
-        <a class="item">Dashboard</a>
-        <div class="right item">
-          <a class="item" href="/act/login/">Login</a>
-          <a class="item" href="/act/register/">Signup</a>
-        </div>
-      </div>
+<div class="ui grid container">
+    <div class = "four wide column">
     </div>
-
-
-<div class = "ui middle aligned center aligned grid">
-    <div class = "column">
-	<h2 class = "ui teal image header">
-	    <!--<i class = "add square icon"></i>
-	    <div class = "content">
-		Register your account
-	    </div>-->
+    <div class = "eight wide column">
+	<p></p>
+	<h4 class = "ui horizontal divider header">
+	    <i class = "user icon"></i>
+	    Register your account
+	</h4>
 	    <form id = "user_form" class = "ui large form" method = "post" action = "/act/register/" enctype = "multipart/form-data">
-		<div class = "ui stacked segment">
 		    {% csrf_token %}
-		    {{ user_form }}
-		</div>
-		<div class = "ui piled segment">
-		    <div class = "ui left icon "> 
+		    <div class = "field">
+			<label>User Name</label>
+			{{ user_form.username }}
+		    </div>
+		    <div class = "field">
+			<label>E-mail</label>
+			{{ user_form.email }}
+		    </div>
+		    <div class = "field">
+			<label>Password</label>
+			{{ user_form.password }}
+		    </div>
 			<!--<i class = "big photo icon"></i>-->
-			<div class = "Upload ui button teal">
-			    {{ profile_form }}
-			</div>
+		    <div class = "Upload ui button ">
+			<label>Avatar</label>
+			{{ profile_form.avatar }}
 		    </div>
-		    <div class="ui error message"></div>
+		    <div class = "field">
+			<label>Gender</label>
+			{{ profile_form.Gender }}
+		    </div>
+		    <div class = "field">
+			<label>Telephone</label>
+			{{ profile_form.Telephone }}
+		    </div>
 		    <div>
-			<input class = "ui fliud large teal submit button" type = "submit" name = "submit" value = "Register" >
+			<input class = "ui fliud large submit button" type = "submit" name = "submit" value = "Register" >
 		    </div>
-		</div>
 	    </form>
+    </div>
+    <div class = "four wide column">
+    </div>
+</div>
 {% endif %}
   <script>
   $(document)
     .ready(function() {
+      $('select.dropdown').dropdown();
       $('.ui.form')
         .form({
           fields: {

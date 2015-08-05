@@ -23,9 +23,15 @@ class MyJsonEncoder(json.JSONEncoder):
 
 
 class UserProfile(models.Model):
+    MALE = 1
+    FEMALE = 2
+    GENDER_CHOICES = (
+        (MALE, 'male'),
+        (FEMALE, 'female'),
+    )
     user = models.OneToOneField(User, related_name = 'userprofile')
     avatar = models.ImageField(upload_to='profile_images', blank=True)
-    Gender = models.CharField(max_length=128)
+    Gender = models.IntegerField(choices = GENDER_CHOICES)
     Telephone = models.CharField(max_length=20)
     Type = models.IntegerField
     Messages = models.TextField
@@ -34,7 +40,7 @@ class UserProfile(models.Model):
 
     def save(self):
         if not self.avatar:
-            return
+            return super(UserProfile, self).save()
         super(UserProfile, self).save()
         from PIL import Image
         image = Image.open(self.avatar)

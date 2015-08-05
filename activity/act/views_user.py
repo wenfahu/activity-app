@@ -71,11 +71,8 @@ def request_user_page(request, user_name):
         return render(request, 'act/user_info.html', { 'username' : user_name})
 
 def user_logout(request):
-    if request.method == 'POST':
-        logout(request)
-        return HttpResponseRedirect('/')
-    else:
-        return HttpResponse('you are not online')
+    logout(request)
+    return HttpResponseRedirect('/')
 
 @login_required
 def dashboard(request):
