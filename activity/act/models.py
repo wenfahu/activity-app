@@ -90,18 +90,6 @@ class CommentInfo(models.Model):
         return self.Title
 
 
-class RecordInfo(models.Model):
-    ID = models.AutoField
-    UID = models.ForeignKey(UserProfile)
-    SID = models.ForeignKey(Activity)
-    Content = models.TextField
-    IsPublic = models.BooleanField(default=True)
-    Type = models.CharField(max_length=128, default='normal') # normal manager organizer
-
-    def __str__(self):
-        return self.Type
-
-
 class MessageInfo(models.Model):
     ID = models.AutoField
     UID = models.IntegerField

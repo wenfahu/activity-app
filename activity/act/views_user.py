@@ -77,6 +77,13 @@ def user_logout(request):
     else:
         return HttpResponse('you are not online')
 
+@login_required
+def dashboard(request):
+    if request.method == 'GET':
+        user = request.user
+        return render(request, 'act/dashboard.html', {'user' : user})
+
+
 # requestInfo
 def request_user_info(request, user_name):
     if request.method == 'GET':

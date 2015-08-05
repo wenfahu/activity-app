@@ -8,8 +8,12 @@
     #user_status{
 	visibility: hidden;
     }
+    .ui.card{
+	min-width: 500px;
+    }
 </style>
 {% if isPublic %}
+<div class = "ui centered card">
 <div class = "content ui segments">
     <div class = "header ui segment">
 	{{ title }}
@@ -19,7 +23,7 @@
 	    <div class = "four wide column">
 		<i class = "user icon">{{ conductor }}</i>
 	    </div>
-	    <div class = "eight wide column">
+	    <div class = "four wide column">
 		<i class = "tags icon"> {{ Tags }}</i>
 	    </div>
 	    <div class = "four wide column">
@@ -52,13 +56,14 @@
 
     </div>
 </div>
+</div>
 <div id = 'sid'>{{ sid }}</div>
 <div id = "user_status">{{ myStatus }}</div>
 <h4 class = "ui horizontal divider header">
     <i class "user icon"></i>
     Members
 </h4>
-<div>
+<div class = "ui centered card">
     <div class = "ui middle aligned animated list">
 	{% for member in members %}
 	<div class = "item">

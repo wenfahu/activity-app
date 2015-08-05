@@ -29,13 +29,7 @@ def create_activity(request):
         print(user)
         u = UserProfile.objects.get(user=user)
         a.UID = u
-        r = RecordInfo.objects.create()
-        r.UID = u
-        r.SID = a
-        r.IsPublic = 'True' # according to the checkbox
-        r.Type = 'organizer'
         a.save()
-        r.save()
         return HttpResponse(json.dumps(
             {'status': 'successfully create activity'}), content_type='application/json')
     else:

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<div class = "ui container">
+    <h4 class = "ui horizontal divider header">
+	<i class = "lightning icon"></i>
+	Rock It !
+    </h4>
+    {% include "act/create_activity.html" %}
+    <h4 class = "ui horizontal divider header">
+	<i class = "send outline icon"></i>
+	Activities
+    </h4>
+    {% include "act/act_list.html" %}
+</div>
+{% endblock %}

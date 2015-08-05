@@ -5,6 +5,7 @@ from act.views_user import *
 urlpatterns = patterns('',
     url(r'^register/$', register, name = 'register'),
     url(r'^login/$', user_login, name = 'login'),
+    url(r'^dashboard/$', dashboard, name = 'dashboard'),
     url(r'^user/(?P<user_name>[0-9a-zA-Z@_\.-]+)/request$', request_user_info, name = 'request_userinfo'),
     url(r'^user/(?P<user_name>[0-9a-zA-Z@_\.-]+)/page$', request_user_page, name = 'request_user_page'),
     url(r'^user/(?P<user_name>[0-9a-zA-Z@_\.-]+)/update$', update_user, name = "update_user"),

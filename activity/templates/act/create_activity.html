@@ -1,12 +1,39 @@
-<form id = "activity">
+<style>
+    #activity{
+	max-width: 500px;
+	margin: auto;
+    }
+</style>
+<form id = "activity" class = "ui form">
     {% csrf_token %}
-    <input name = "Title" type = "text" placeholder="Title"/>
-    <input name = "Content" type = "text" placeholder="Content"/>
-    <input name = "Keyword" type = "text" placeholder="Keyword"/>
-    <input name = "State" type = "text" placeholder="State"/>
-    <input class = "datepicker" name = "StartTime" type = "text" placeholder="StartTime:yyyy-mm-dd"/>
-    <input class = "datepicker" name = "EndTime" type = "text" placeholder="EndTime:yyyy-mm-dd"/>
-    <input type = "submit" />
+    <div class = "field">
+	<label> Title </label>
+	<input name = "Title" type = "text" placeholder="Title"/>
+    </div>
+    <div class = "field">
+	<label> Content </label>
+	<input name = "Content" type = "text" placeholder="Content"/>
+    </div>
+    <div class = "field">
+	<label> Keyword </label>
+	<input name = "Keyword" type = "text" placeholder="Keyword"/>
+    </div>
+    <div class = "field">
+	<label> State </label>
+	<input name = "State" type = "text" placeholder="State"/>
+    </div>
+    <div class = "field">
+	<label> Time Range </label>
+	<div class = "two fields">
+	    <div class = "field">
+		<input class = "datepicker" name = "StartTime" type = "text" placeholder="StartTime:yyyy-mm-dd"/>
+	    </div>
+	    <div class = "field">
+		<input class = "datepicker" name = "EndTime" type = "text" placeholder="EndTime:yyyy-mm-dd"/>
+	    </div>
+	</div>
+    </div>
+    <input class = "ui button" type = "submit" value = "submit" />
 </form>
 {% load staticfiles %}
 <script src = "{% static "act/create_activity.js" %} " ></script>
