@@ -78,7 +78,7 @@ def get_activity(request, SID):
                 context['isPublic'] = activity.IsPublic
                 context['tags'] = activity.Keyword
                 context['vote'] = activity.vote
-                context['voted'] = request.session.get('voted', False)
+                context['voted'] = request.session.get(SID, False)
                 context['State'] = activity.State
                 context['StartTime'] = activity.StartTime
                 context['EndTime'] = activity.EndTime
@@ -136,7 +136,7 @@ def vote(request, SID):
         act = Activity.objects.get(SID = SID)
         act.vote += 1
         act.save()
-        request.session['voted'] = True
+        request.session[SID] = True
         return JsonResponse({'vote' : act.vote})
 
 def cancel_vote(request, SID):
@@ -144,7 +144,7 @@ def cancel_vote(request, SID):
         act = Activity.objects.get(SID = SID)
         act.vote -= 1
         act.save()
-        request.session['voted'] = False
+        request.session[SID] = False
         return JsonResponse({'vote' : act.vote})
 
 
