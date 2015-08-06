@@ -1,13 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 {% load staticfiles %}
-<style>
-    #username{
-	display : none;
-    }
-</style>
 
-<div id = "username">{{user.username}}</div>
 <div class = "ui container">
 <div class = "ui top attached tabular menu">
     <a class = "item active" data-tab="activities"> Activities </a>
@@ -26,6 +20,10 @@
     {% include "act/act_list.html" %}
 </div>
 <div class = "ui bottom attached tab segment" data-tab="personal">
+    <a class = "ui label">
+	<img class = "ui right spaced avatar image" src = "/media/{{user.userprofile.avatar}}">
+	    {{user.username}}
+    </a>
     <div class = "ui centered card">
 	<div class = "content">
 	    <div class = "header">

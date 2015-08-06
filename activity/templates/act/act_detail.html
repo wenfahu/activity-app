@@ -8,6 +8,9 @@
     #user_status{
 	visibility: hidden;
     }
+    #vote_status{
+	display: hidden;
+    }
     .ui.card{
 	min-width: 500px;
     }
@@ -28,6 +31,14 @@
 <div class = "content ui segments">
     <div class = "header ui segment">
 	{{ title }}
+	<div class = "ui right floated">
+	    {% if voted %}
+	    <i id = "vote" class = "red heart icon"></i>
+	    {% else %}
+	    <i id = "vote" class = "empty heart icon"></i>
+	    {% endif %}
+	    <span id = "votes" class = "description">{{ vote }}</span>
+	</div>
     </div>
     <div class = "meta ui red segment">
 	<div class = "ui grid container">
@@ -70,6 +81,7 @@
 </div>
 <div id = 'sid'>{{ sid }}</div>
 <div id = "user_status">{{ myStatus }}</div>
+<div id = "vote_status">{{ voted }}</div>
 <h4 class = "ui horizontal divider header">
     <i class "user icon"></i>
     Members

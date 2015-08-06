@@ -77,6 +77,8 @@ def get_activity(request, SID):
                 context['conductor'] = activity.UID.user.username
                 context['isPublic'] = activity.IsPublic
                 context['tags'] = activity.Keyword
+                context['vote'] = activity.vote
+                context['voted'] = request.session.get('voted', False)
                 context['State'] = activity.State
                 context['StartTime'] = activity.StartTime
                 context['EndTime'] = activity.EndTime
@@ -128,6 +130,23 @@ def update_activity(request):
             return HttpResponse('no right to update')
     else:
         return HttpResponse('not update activity')
+
+def vote(request, SID):
+    if request.method == 'POST':
+        act = Activity.objects.get(SID = SID)
+        act.vote += 1
+        act.save()
+        request.session['voted'] = True
+        return JsonResponse({'vote' : act.vote})
+
+def cancel_vote(request, SID):
+    if request.method == 'POST':
+        act = Activity.objects.get(SID = SID)
+        act.vote -= 1
+        act.save()
+        request.session['voted'] = False
+        return JsonResponse({'vote' : act.vote})
+
 
 def on_manager(request):
     if request.method == 'POST':

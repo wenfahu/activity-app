@@ -15,5 +15,7 @@ urlpatterns = patterns('',
     url(r'^activity/(?P<SID>[0-9a-zA-z@_\.-]+)/request$', get_activity, name = "get_activity"),
     url(r'^activity/(?P<SID>[0-9a-zA-z@_\.-]+)/join$', participate_activity, name = "participate_activity"),
     url(r'^activity/(?P<SID>[0-9a-zA-z@_\.-]+)/quit$', quit_activity, name = "quit_activity"),
+    url(r'^activity/(?P<SID>[0-9a-zA-z@_\.-]+)/vote$', vote, name = "vote_activity"),
+    url(r'^activity/(?P<SID>[0-9a-zA-z@_\.-]+)/cancel_vote$', cancel_vote, name = "cancel_vote_activity"),
     url(r'^activity/requestAll$', get_activity_list, name = "get_activity_list"),
 )

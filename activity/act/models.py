@@ -71,6 +71,7 @@ class Activity(models.Model):
     State = models.CharField(max_length=128)
     StartTime = models.DateField(default=timezone.now, null = True, blank = True)
     EndTime = models.DateField(default=timezone.now,null = True, blank = True)
+    vote = models.IntegerField(default=0)
     RegisterForm = models.TextField
     BlackList = models.TextField
 

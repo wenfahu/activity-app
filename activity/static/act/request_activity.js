@@ -7,6 +7,13 @@ $(document).ready(function(){
 		active: 'Joined'
 	    }
     });
+    var $vote_status = $('#vote_status').text();
+    if($vote_status == 'True'){
+	var $vote_toggle = true;
+    }
+    else{
+	$vote_toggle = false;
+    }
     var $status = $('#user_status').text();
     if($status == 'True'){
 	var $toggle = true;
@@ -14,8 +21,8 @@ $(document).ready(function(){
     else{
 	$toggle = false;
     }
+    var $sid = $('#sid').text();
     $('button#follow').click(function(){
-	var $sid = $('#sid').text();
 	console.log($sid);
 	var $joinUrl = '/act/activity/' + $sid + '/join';
 	var $quitUrl = '/act/activity/' + $sid + '/quit';
@@ -42,33 +49,38 @@ $(document).ready(function(){
 	    })
 	}
 	$toggle = !$toggle;
-    })
-})
-
-/*
-var semantic.button = {};
-var semantic.button.ready = function(){
-    var 
-    $button = $('.ui.buttons .button'),
-    $toggle = $('.main .ui.toggle.button'),
-    $button = $('.ui.button').not($buttons).not($toggle),
-    handler = {
-	activate: function(){
-	    $(this)
-		.addClass('active')
-		.siblings()
-		.removeClass('active');
-	}
-    }
-    $buttons.on('click', handler.activate);
-    $toggle.state({
-	text: {
-	    inactive: 'join',
-	    active: 'joined'
-	}
     });
-};
-
-*/
-
-
+    $('i#vote').click(function(){
+	var unvote_url = '/act/activity/' + $sid + '/cancel_vote';
+	var vote_url = '/act/activity/' + $sid + '/vote';
+	var csrftoken = $.cookie('csrftoken');
+	function csrfSafeMethod(method) {
+	// these HTTP methods do not require CSRF protection
+	    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+	}
+	$.ajaxSetup({
+	    beforeSend: function(xhr, settings) {
+		if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+		    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+		}
+	    }
+	});
+	if($vote_toggle){
+	    $.post(unvote_url, function(data){
+		console.log(data);
+		console.log(data.vote);
+		$('#vote').removeClass('red').addClass('empty');
+		$('#votes').html(data.vote);
+	    });
+	}
+	else{
+	    $.post(vote_url, function(data){
+		console.log(data);
+		$('#vote').removeClass('empty').addClass('red');
+		console.log(data.vote);
+		$('#votes').html(data.vote);
+	    });
+	}
+	$vote_toggle = !$vote_toggle;
+    });
+})
